@@ -1,14 +1,11 @@
 import React from "react";
 
+const Clientes = () => {
+  return (
+    <div>
+      <h3>Listado de Clientes</h3>
+    </div>
+  );
+};
 
-const Clientes = ()=>{
-   
-    return(
-    <div >
-            <h3>Clientes</h3>
-            
-        </div>
-    )
-}
-
-export default Clientes
+export default Clientes;
