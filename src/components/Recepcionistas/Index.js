@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector , useDispath} from 'react-redux';
+import { Link } from 'react-router-dom';
+import Recepcionista from './Recepcionista';
 
 function Recepcionistas () {
     return (

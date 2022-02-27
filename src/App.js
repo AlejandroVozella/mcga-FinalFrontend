@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import { Provider } from "react";
 import Footer from "./Shared/Footer/Footer";
 import Header from "./Shared/Header/Header";
 import Sidebar from "./Shared/Sidebar/Sidebar";
