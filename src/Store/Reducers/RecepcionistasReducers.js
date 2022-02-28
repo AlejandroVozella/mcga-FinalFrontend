@@ -1,84 +1,130 @@
-import { SwipeableDrawer } from "@material-ui/core";
-import Swal from "sweetalert2";
-import axios from "axios";
-import axiosClient from "axios";
 import {
   ADD_RECEPCIONISTA,
+  ADD_RECEPCIONISTAS_SUCCESS,
+  ADD_RECEPCIONISTAS_ERROR,
   GET_RECEPCIONISTAS,
-  ELIMINAR_RECEPCIONISTA,
-  ELIMINAR_RECEPCIONISTA_ERROR,
-} from "../../Types/Recepcionistas";
+  GET_RECEPCIONISTAS_ERROR,
+  GET_RECEPCIONISTAS_SUCCESS,
+  DELETE_RECEPCIONISTA,
+  DELETE_RECEPCIONISTAS_SUCCESS,
+  DELETE_RECEPCIONISTAS_ERROR,
+  EDIT_RECEPCIONISTAS,
+  EDIT_RECEPCIONISTAS_SUCCESS,
+  EDIT_RECEPCIONISTAS_ERROR,
+  SET_RECEPCIONISTAS
+} from '../../Types/Recepcionistas';
 
-export const obtenerRecepcionistasAccion =
-  () => async (dispactch, getState) => {
-    try {
-      const res = await axios.get(
-        "https://final-mcga-alejandrovozella.herokuapp.com/recepcionistas"
-      );
-      dispactch({
-        type: GET_RECEPCIONISTAS,
-        payload: res.data.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-export function agregarNuevoRecepcionistaAccion(recepcionista) {
-  return async (dispatch) => {
-    try {
-      console.log("envio datos al servidor");
-      await axios.post(
-        "https://app-parcialmcga.herokuapp.com/Recepcionistas",
-        recepcionista
-      );
-      dispatch(agregarRecepcionista());
-      //Alerta OK.
-      Swal.fire("Correcto", "Se agrego correctamente...", "success");
-    } catch (error) {
-      console.log(error);
-      //Alerta Fallida.
-      Swal.fire({
-        icon: "error",
-        title: "Ocurrio un error.",
-        text: "Ocurrio un error, intenta de nuevo.",
-      });
-    }
-  };
+const initialState = {
+  recepcionistas:[],
+  error:null,
+  loading:false,
+  recepcionista:null,
+  selectedRecepcionista:null,
 }
 
-const agregarRecepcionista = (recepcionista) => ({
-  type: ADD_RECEPCIONISTA,
-  payload: recepcionista,
-});
 
-export const elminiarRecepcionistaAccion = (id) => {
-  return async (dispatch) => {
-    try {
-      await axios.delete(
-        `https://app-parcialmcga.herokuapp.com/recepcionistas/${id}`
-      );
+export default function clientes(state = initialState, action) {
+  switch (action.type) {
+    case ADD_RECEPCIONISTA:
+      return {
+        ...state,
+        loading: true,
+      };
 
-      dispatch(elminarRecepcionista(id));
-      Swal.fire("Eliminado", "Se elimino correctamente...", "success");
-    } catch (error) {
-      console.error(error);
-      dispatch(elminarRecepcionistaError(true));
-      Swal.fire({
-        icon: "error",
-        title: "Ocurrio un error.",
-        text: "Ocurrio un error al eliminar, intenta de nuevo.",
-      });
-    }
-  };
-};
+    case ADD_RECEPCIONISTAS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        clients: [...state.clients, action.payload],
+        error: false,
+      };
 
-const elminarRecepcionista = (id) => ({
-  type: ELIMINAR_RECEPCIONISTA,
-  payload: id,
-});
+    case ADD_RECEPCIONISTAS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        // En este caso, el error pasa a true. (Para poder notificar al usuario)
+      };
 
-const elminarRecepcionistaError = (status) => ({
-  type: ELIMINAR_RECEPCIONISTA_ERROR,
-  payload: status,
-});
+    case GET_RECEPCIONISTAS:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case GET_RECEPCIONISTAS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        clients: action.payload,
+        error: false,
+      };
+
+    case GET_RECEPCIONISTAS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        // En este caso, el error pasa a true. (Para poder notificar al usuario)
+      };
+
+    case DELETE_RECEPCIONISTA:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case DELETE_RECEPCIONISTAS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        clients: state.clients.filter(
+          (client) => client._id !== action.payload
+        ),
+        error: false,
+      };
+
+    case DELETE_RECEPCIONISTAS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        // En este caso, el error pasa a true. (Para poder notificar al usuario)
+      };
+
+    case EDIT_RECEPCIONISTAS:
+      return {
+        ...state,
+        loading: false,
+        selectedClient: action.payload,
+      };
+
+    case EDIT_RECEPCIONISTAS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        clients: state.clients.filter(
+          (client) => client._id !== action.payload
+        ),
+        error: false,
+      };
+
+    case EDIT_RECEPCIONISTAS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        // En este caso, el error pasa a true. (Para poder notificar al usuario)
+      };
+
+    case SET_RECEPCIONISTAS:
+      return {
+        ...state,
+        loading: false,
+        selectedClient: action.payload,
+      };
+    default:
+      return state;
+  }
+}
