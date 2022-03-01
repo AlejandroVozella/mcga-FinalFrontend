@@ -22,7 +22,7 @@ const RecepcionistaUrl = "/recepcionistas";
 
 export function getAllRecepcionistasAction() {
   return async (dispatch) => {
-    dispatch(getAllRecepcinistas());
+    dispatch(getAllRecepcionistas());
     try {
       const { data } = await axios.get(`${RecepcionistaUrl}`);
       dispatch(getAllRecepcionistasSuccess(data));
@@ -33,7 +33,7 @@ export function getAllRecepcionistasAction() {
   };
 }
 
-const getAllRecepcinistas = () => ({
+const getAllRecepcionistas = () => ({
   type: GET_RECEPCIONISTAS,
 });
 
@@ -47,13 +47,13 @@ const getAllRecepcionitasError = (status) => ({
   payload: status,
 });
 
-//Crear Nuevo Cliente.
+//Crear Nuevo Recepcionista.
 
 export function addnewRecepcionistaAction(recepcionista) {
   return async (dispatch) => {
     dispatch(addnewRecepcionista());
     try {
-      //Intenta cargar un cliente
+      //Intenta cargar un Recepcionista
       await axios.post(`${RecepcionistaUrl}`, recepcionista);
       //Si lo agrega correctamente , dispara la accion con el objeto recepcionista cargado.
       dispatch(addNewRecepcionstaSuccess(recepcionista));
@@ -80,7 +80,7 @@ const addnewRecepcionista = () => ({
   type: ADD_RECEPCIONISTA,
 });
 
-// Si el cliente se guarda en la base de datos.
+// Si el Recepcionista se guarda en la base de datos.
 const addNewRecepcionstaSuccess = (client) => ({
   type: ADD_RECEPCIONISTAS_SUCCESS,
   payload: client,
