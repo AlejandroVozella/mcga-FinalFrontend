@@ -16,7 +16,7 @@ import {
   SET_RECEPCIONISTAS,
 } from "../../Types/Recepcionistas";
 
-const RecepcionistaUrl = "/recepcionistas";
+const RecepcionistaUrl = 'https://final-mcga-alejandrovozella.herokuapp.com/recepcionistas';
 
 //Obtengo todos los Recepcionistas.
 
@@ -24,7 +24,9 @@ export function getAllRecepcionistasAction() {
   return async (dispatch) => {
     dispatch(getAllRecepcionistas());
     try {
-      const { data } = await axios.get(`${RecepcionistaUrl}`);
+      const { data } = await axios.get("https://final-mcga-alejandrovozella.herokuapp.com/recepcionistas");
+     
+      // const { data } = await axios.get(`${RecepcionistaUrl}`);
       dispatch(getAllRecepcionistasSuccess(data));
     } catch (error) {
       console.error(error);
